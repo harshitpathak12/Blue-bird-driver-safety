@@ -1,0 +1,48 @@
+name: Deploy Python API to Azure App Service
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout code
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # 2. Set up Python
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      # 3. Install dependencies (for validation only)
+      - name: Install dependencies
+        run: |
+          pip install -r requirements.txt
+
+      # 4. Zip the app
+      - name: Create deployment package
+        run: |
+          zip -r release.zip . -x "*.git*" "antenv/*" "__pycache__/*"
+
+      # 5. Login to Azure
+      - name: Azure Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_67A680763B294FF5BC607A848F85BBDA }}
+          tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_8A6B626A78684245A27966693FA96ADA }}
+          subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_E76B3692292A4E14B65192399108CE5D }}
+
+      # 6. Deploy to Azure
+      - name: Deploy to Azure Web App
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: blue-bird-driver
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE }}
+          package: release.zip

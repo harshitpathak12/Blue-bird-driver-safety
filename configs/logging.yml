@@ -1,0 +1,71 @@
+version: 1
+disable_existing_loggers: false
+
+formatters:
+  standard:
+    format: "%(asctime)s [%(levelname)-8s] %(name)s: %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+  detailed:
+    format: "%(asctime)s [%(levelname)-8s] %(name)s (%(filename)s:%(lineno)d): %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: DEBUG
+    formatter: standard
+    stream: ext://sys.stdout
+
+  file:
+    class: logging.handlers.RotatingFileHandler
+    level: DEBUG
+    formatter: detailed
+    filename: logs/driver_safety.log
+    maxBytes: 10485760   # 10 MB
+    backupCount: 5
+    encoding: utf8
+
+root:
+  level: INFO
+  handlers: [console, file]
+
+loggers:
+  app:
+    level: DEBUG
+    propagate: false
+    handlers: [console, file]
+
+  data_pipeline:
+    level: DEBUG
+    propagate: false
+    handlers: [console, file]
+
+  database:
+    level: INFO
+    propagate: false
+    handlers: [console, file]
+
+  training:
+    level: INFO
+    propagate: false
+    handlers: [console, file]
+
+  src:
+    level: DEBUG
+    propagate: false
+    handlers: [console, file]
+
+  utils:
+    level: INFO
+    propagate: false
+    handlers: [console, file]
+
+  configs:
+    level: DEBUG
+    propagate: false
+    handlers: [console, file]
+
+  uvicorn:
+    level: INFO
+    propagate: false
+    handlers: [console, file]

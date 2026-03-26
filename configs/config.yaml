@@ -1,0 +1,4 @@
+# Production: prefer MONGODB_URL and MONGODB_DATABASE env vars (see configs/config_loader.py).
+mongodb:
+  url: "mongodb+srv://corazortechnology:A0Qfk2PbjOMKN32Z@cluster0.drxzj5r.mongodb.net/"
+  database: "driver_monitoring"

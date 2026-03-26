@@ -1,0 +1,29 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Dataset
+data/
+datasets/
+
+# Logs
+logs/
+*.log
+
+# OS files
+.DS_Store
+.yaml
+# VSCode
+.vscode/
+
+# Jupyter
+.ipynb_checkpoints/
+
+# temp
+tmp/
+
